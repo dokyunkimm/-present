@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <title>Present Box</title>
+
+    <style>
+        body {
+            background: black;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .box {
+            position: relative;
+        }
+        .box::before {
+            content: "";
+            width: 440px;
+            height: 440px;
+            background-color: #89cff0;
+            position: absolute;
+            z-index: -1;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+                    transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+        .box-body {
+            z-index: 5;
+            position: relative;
+            height: 200px;
+            width: 200px;
+            margin-top: 123.3333333333px;
+            background-color: #cc231e;
+            border-bottom-left-radius: 5%;
+            border-bottom-right-radius: 5%;
+            box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(#762c2c,#ff0303);
+        }
+        .box-body .img{
+            position: relative;
+            z-index: -1;
+            opacity: 0;
+            transform: translateY(0%);
+            transition: transform 0.5s linear 1s, opacity 0.5s linear 1s;
+            margin: 0 auto;
+            display: block;
+        }
+        .box-body.on {
+            cursor: pointer;
+            -webkit-animation: box-body 1s forwards ease-in-out;
+                    animation: box-body 1s forwards ease-in-out;
+        }
+        .box-body.on .img{
+            opacity: 1;
+            z-index: 0;
+            transform: translateY(-157px);
+        }
+        .box-body.on .box-lid {
+            -webkit-animation: box-lid 1s forwards ease-in-out;
+                    animation: box-lid 1s forwards ease-in-out;
+        }
+        .box-body.on .box-bowtie::before {
+            -webkit-animation: box-bowtie-left 1.1s forwards ease-in-out;
+                    animation: box-bowtie-left 1.1s forwards ease-in-out;
+        }
+        .box-body.on .box-bowtie::after {
+            -webkit-animation: box-bowtie-right 1.1s forwards ease-in-out;
+                    animation: box-bowtie-right 1.1s forwards ease-in-out;
+        }
+        .box-body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+                    transform: translateX(-50%);
+            width: 50px;
+            background: linear-gradient(#ffffff,#ffefa0)
+        }
+        .box-lid {
+            position: absolute;
+            z-index: 1;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+                    transform: translateX(-50%);
+            bottom: 90%;
+            height: 40px;
+            background-color: #cc231e;
+            height: 40px;
+            width: 220px;
+            border-radius: 5%;
+            box-shadow: 0 8px 4px -4px rgba(0, 0, 0, 0.3);
+        }
+        .box-lid::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+                    transform: translateX(-50%);
+            width: 50px;
+            background: linear-gradient(#ffefa0,#fff)
+        }
+        .box-bowtie {
+            z-index: 1;
+            height: 100%;
+        }
+        .box-bowtie::before, .box-bowtie::after {
+            content: "";
+            width: 83.3333333333px;
+            height: 83.3333333333px;
+            border: 16.6666666667px solid white;
+            border-radius: 50% 50% 0 50%;
+            position: absolute;
+            bottom: 99%;
+            z-index: -1;
+        }
+        .box-bowtie::before {
+            left: 50%;
+            -webkit-transform: translateX(-100%) skew(10deg, 10deg);
+                    transform: translateX(-100%) skew(10deg, 10deg);
+        }
+        .box-bowtie::after {
+            left: 50%;
+            -webkit-transform: translateX(0%) rotate(90deg) skew(10deg, 10deg);
+                    transform: translateX(0%) rotate(90deg) skew(10deg, 10deg);
+        }
+
+        @keyframes box-lid {
+            0%,
+            42% {
+                -webkit-transform: translate3d(-50%, 0%, 0) rotate(0deg);
+                        transform: translate3d(-50%, 0%, 0) rotate(0deg);
+            }
+            /* 60% {
+                -webkit-transform: translate3d(-50%, -230%, 0) rotate(-25deg);
+                        transform: translate3d(-50%, -230%, 0) rotate(-25deg);
+            } */
+            90%, 100% {
+                -webkit-transform: translate3d(-100%, -300%, 0) rotate(-70deg);
+                        transform: translate3d(-100%, -300%, 0) rotate(-70deg);
+            }
+        }
+        
+
+        @keyframes box-body {
+            0% {
+                -webkit-transform: translate3d(0%, 0%, 0) rotate(0deg);
+                        transform: translate3d(0%, 0%, 0) rotate(0deg);
+            }
+            25% {
+                -webkit-transform: translate3d(0%, 25%, 0) rotate(20deg);
+                        transform: translate3d(0%, 25%, 0) rotate(20deg);
+            }
+            50% {
+                -webkit-transform: translate3d(0%, -15%, 0) rotate(0deg);
+                        transform: translate3d(0%, -15%, 0) rotate(0deg);
+            }
+            70% {
+                -webkit-transform: translate3d(0%, 0%, 0) rotate(0deg);
+                        transform: translate3d(0%, 0%, 0) rotate(0deg);
+            }
+        }
+        
+        @keyframes box-bowtie-right {
+            0%,
+            50%,
+            75% {
+                -webkit-transform: translateX(0%) rotate(90deg) skew(10deg, 10deg);
+                        transform: translateX(0%) rotate(90deg) skew(10deg, 10deg);
+            }
+            90%,
+            100% {
+                -webkit-transform: translate(-50%, -15%) rotate(45deg) skew(10deg, 10deg);
+                        transform: translate(-50%, -15%) rotate(45deg) skew(10deg, 10deg);
+                box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.3);
+            }
+        }
+        
+        @keyframes box-bowtie-left {
+            0% {
+                -webkit-transform: translateX(-100%) rotate(0deg) skew(10deg, 10deg);
+                        transform: translateX(-100%) rotate(0deg) skew(10deg, 10deg);
+            }
+            50%,
+            75% {
+                -webkit-transform: translate(-50%, -15%) rotate(45deg) skew(10deg, 10deg);
+                        transform: translate(-50%, -15%) rotate(45deg) skew(10deg, 10deg);
+            }
+            90%,
+            100% {
+                -webkit-transform: translateX(-100%) rotate(0deg) skew(10deg, 10deg);
+                        transform: translateX(-100%) rotate(0deg) skew(10deg, 10deg);
+            }
+        }
+
+        .container{overflow: hidden; width: 100%; height: 100%;}
+        .row{height: 100%; display: flex; align-items: center; justify-content: center;}
+        .remv{position: absolute; top: 0; left: 0; width: 100%; pointer-events: none;}
+        .firecracker{position: absolute; bottom: 0; width: 100%; pointer-events: none; overflow: hidden;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="" style="display: flex; justify-content: center;">
+            <div class="box">
+                <div class="box-body btnFirecracker" onclick="clickButton()">
+                    <img class="img" src="https://via.placeholder.com/150">
+                    <div class="box-lid">
+                        <div class="box-bowtie"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <canvas id="canvas" class="firecracker" style="display:none;"></canvas>
+</div>
+<!-- ** 꽃가루 관련 소스 추가 -->
+<div class="buttonContainer" style="display: none;">
+    <button class="canvasBtn" id="stopButton">Stop Confetti</button>
+    <button class="canvasBtn" id="startButton">Drop Confetti</button>
+</div>
+<canvas id="canvas02" class="remv"></canvas>
+<!-- ** 꽃가루 관련 소스 추가 -->
+
+<script src="js/confetti_v2.js"></script><!-- %% 꽃가루 관련 소스 추가함 -->
+
+<!-- ** NOTE :: 폭죽 관련 소스 :: START -->
+
+<script src="js/newbird.js"></script>
+<script src="js/firecracker.js"></script> <!-- ** 폭죽 관련 소스 -->
+
+<!-- NOTE :: 폭죽 관련 소스 :: END -->
+</body>
+</html>
